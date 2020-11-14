@@ -1,0 +1,13 @@
+diff --git a/defs.h b/defs.h
+index 2b5e18aa..3af4d579 100644
+--- a/defs.h
++++ b/defs.h
+@@ -118,7 +118,7 @@
+ 
+ #define GOLD_SMALL_LIMIT		1000
+ #define GOLD_MEDIUM_LIMIT		2500
+-#define GOLD_MAX_LIMIT			5000
++#define GOLD_MAX_LIMIT			50000
+ 
+ #define PLR_NAME_LEN			32
+ 
