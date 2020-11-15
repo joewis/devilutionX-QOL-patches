@@ -1,14 +1,10 @@
 # devilutionX-QOL-patches
-QOL improvements for devilutionX 
+Gentoo ebuild with QOL improvements for devilutionX 
+https://github.com/diasurgical/devilutionX
 
-This mini-mod is provided as a series of patches to avoid constant rebases to track devilutionX development.
+- Item Highight
+- MOnsther HP bar
+- left mouse button auto-clicker
+- run in town
+- max 50k gold per inventory field
 
-They can be applied by running
-```patch -p1 < ../path_to.patch```
-in the devilutionX directory.
-
-Most of the patches are stand-alone. `infernity_item_hightlight_v04.patch` and `infernity_monster_hp_bar_v02.patch` require `infernity_common_v02.patch`.
-
-Added a 50000 max gold patch.
-
-On gentoo systems, the ebuld file can be used as overlay to install devilutionx with the patches.
