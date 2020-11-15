@@ -8,3 +8,7 @@ They can be applied by running
 in the devilutionX directory.
 
 Most of the patches are stand-alone. `infernity_item_hightlight_v04.patch` and `infernity_monster_hp_bar_v02.patch` require `infernity_common_v02.patch`.
+
+Added a 50000 max gold patch.
+
+On gentoo systems, the ebuld file can be used as overlay to install devilutionx with the patches.
