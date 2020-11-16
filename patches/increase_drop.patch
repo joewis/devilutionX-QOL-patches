@@ -1,21 +1,33 @@
-diff --git a/Source/diablo.cpp b/Source/diablo.cpp
-index 2217a444..b5917269 100644
---- a/Source/diablo.cpp
-+++ b/Source/diablo.cpp
-@@ -117,6 +117,7 @@ static void print_help_and_exit()
+diff --git a/diablo.cpp b/diablo.cpp
+index 6d53647..54e7a7a 100644
+--- a/diablo.cpp
++++ b/diablo.cpp
+@@ -359,9 +359,9 @@ static void print_help_and_exit()
+ 	printf("    %-20s %-30s\n", "-n", "Skip startup videos");
  	printf("    %-20s %-30s\n", "-f", "Display frames per second");
  	printf("    %-20s %-30s\n", "-x", "Run in windowed mode");
- 	printf("    %-20s %-30s\n", "--spawn", "Force spawn mode even if diabdat.mpq is found");
 +	printf("    %-20s %-30s\n", "-d", "Increaased item drops");
- #ifdef HELLFIRE
- 	printf("    %-20s %-30s\n", "--theoquest", "Enable the Theo quest");
- 	printf("    %-20s %-30s\n", "--cowquest", "Enable the Cow quest");
-@@ -164,6 +165,8 @@ static void diablo_parse_flags(int argc, char **argv)
- 			fullscreen = FALSE;
- 		} else if (strcasecmp("--spawn", argv[i]) == 0) {
- 			forceSpawn = TRUE;
+ #ifdef _DEBUG
+ 	printf("\nDebug options:\n");
+-	printf("    %-20s %-30s\n", "-d", "Increaased item drops");
+ 	printf("    %-20s %-30s\n", "-w", "Enable cheats");
+ 	printf("    %-20s %-30s\n", "-$", "Enable god mode");
+ 	printf("    %-20s %-30s\n", "-^", "Enable god mode and debug tools");
+@@ -389,6 +389,8 @@ void diablo_parse_flags(int argc, char **argv)
+ 			diablo_quit(0);
+ 		} else if (strcasecmp("--data-dir", argv[i]) == 0) {
+ 			basePath = argv[++i];
 +		} else if (strcasecmp("-d", argv[i]) == 0) {
 +			debug_mode_key_d = TRUE;
- #ifdef HELLFIRE
- 		} else if (strcasecmp("--theoquest", argv[i]) == 0) {
- 			UseTheoQuest = TRUE;
+ #ifdef _WIN32
+ 			if (basePath.back() != '\\')
+ 				basePath += '\\';
+@@ -420,8 +422,6 @@ void diablo_parse_flags(int argc, char **argv)
+ 		} else if (strcasecmp("-b", argv[i]) == 0) {
+ 			debug_mode_key_b = 1;
+ 		*/
+-		} else if (strcasecmp("-d", argv[i]) == 0) {
+-			debug_mode_key_d = TRUE;
+ 		} else if (strcasecmp("-i", argv[i]) == 0) {
+ 			debug_mode_key_i = TRUE;
+ 			/*
