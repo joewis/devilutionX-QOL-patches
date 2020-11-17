@@ -1,10 +1,10 @@
 # devilutionX-QOL-patches
-Gentoo ebuild with QOL improvements for devilutionX 
+Gentoo ebuild with QOL patches for devilutionX 
 https://github.com/diasurgical/devilutionX
 
-- Item Highight
+- Item Highight (press ALT key)
 - Monster HP bar
-- left mouse button auto-clicker
-- run in town
-- max 50k gold per inventory field
-
+- Left mouse button auto-clicker
+- Run in town
+- Max 50k gold per inventory field
+- Show all players on map
