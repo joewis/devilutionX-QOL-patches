@@ -19,7 +19,7 @@ if [[ "${PV}" == 9999 ]] ; then
 else
 	SRC_URI="
 		https://github.com/diasurgical/devilutionX/archive/${PV}.tar.gz -> ${P}.tar.gz
-		https://github.com/spidertoast/devilutionX-QOL-patches/raw/master/devilutionX-QOL-patches-1.1.0-r1.tar.gz
+		https://github.com/spidertoast/devilutionX-QOL-patches/raw/master/archive/devilutionX-QOL-patches-1.1.0-r1.tar.gz
 		"
 	KEYWORDS="~amd64 ~x86"
 	S="${WORKDIR}/devilutionX-${PV}"
