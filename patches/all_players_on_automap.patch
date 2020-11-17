@@ -1,0 +1,174 @@
+diff --git a/Source/automap.cpp b/Source/automap.cpp
+index 62e0fb3..a7d42e7 100644
+--- a/Source/automap.cpp
++++ b/Source/automap.cpp
+@@ -4,6 +4,8 @@
+  * Implementation of the in-game map overlay.
+  */
+ #include "all.h"
++#include <iostream>
++using namespace std;
+ 
+ DEVILUTION_BEGIN_NAMESPACE
+ 
+@@ -476,75 +478,91 @@ void DrawAutomapTile(int sx, int sy, WORD automap_type)
+ void DrawAutomapPlr()
+ {
+ 	int px, py;
+-	int x, y;
+-
+-	if (plr[myplr]._pmode == PM_WALK3) {
+-		x = plr[myplr]._pfutx;
+-		y = plr[myplr]._pfuty;
+-		if (plr[myplr]._pdir == DIR_W)
+-			x++;
+-		else
+-			y++;
+-	} else {
+-		x = plr[myplr]._px;
+-		y = plr[myplr]._py;
+-	}
+-	px = x - 2 * AutoMapXOfs - ViewX;
+-	py = y - 2 * AutoMapYOfs - ViewY;
+-
+-	x = (plr[myplr]._pxoff * AutoMapScale / 100 >> 1) + (ScrollInfo._sxoff * AutoMapScale / 100 >> 1) + (px - py) * AmLine16 + SCREEN_WIDTH / 2 + SCREEN_X;
+-	y = (plr[myplr]._pyoff * AutoMapScale / 100 >> 1) + (ScrollInfo._syoff * AutoMapScale / 100 >> 1) + (px + py) * AmLine8 + (SCREEN_HEIGHT - PANEL_HEIGHT) / 2 + SCREEN_Y;
+-
+-	if (PANELS_COVER) {
+-		if (invflag || sbookflag)
+-			x -= SCREEN_WIDTH / 4;
+-		if (chrflag || questlog)
+-			x += SCREEN_WIDTH / 4;
+-	}
+-	y -= AmLine8;
+-
+-	switch (plr[myplr]._pdir) {
+-	case DIR_N:
+-		DrawLine(x, y, x, y - AmLine16, COLOR_PLAYER);
+-		DrawLine(x, y - AmLine16, x - AmLine4, y - AmLine8, COLOR_PLAYER);
+-		DrawLine(x, y - AmLine16, x + AmLine4, y - AmLine8, COLOR_PLAYER);
+-		break;
+-	case DIR_NE:
+-		DrawLine(x, y, x + AmLine16, y - AmLine8, COLOR_PLAYER);
+-		DrawLine(x + AmLine16, y - AmLine8, x + AmLine8, y - AmLine8, COLOR_PLAYER);
+-		DrawLine(x + AmLine16, y - AmLine8, x + AmLine8 + AmLine4, y, COLOR_PLAYER);
+-		break;
+-	case DIR_E:
+-		DrawLine(x, y, x + AmLine16, y, COLOR_PLAYER);
+-		DrawLine(x + AmLine16, y, x + AmLine8, y - AmLine4, COLOR_PLAYER);
+-		DrawLine(x + AmLine16, y, x + AmLine8, y + AmLine4, COLOR_PLAYER);
+-		break;
+-	case DIR_SE:
+-		DrawLine(x, y, x + AmLine16, y + AmLine8, COLOR_PLAYER);
+-		DrawLine(x + AmLine16, y + AmLine8, x + AmLine8 + AmLine4, y, COLOR_PLAYER);
+-		DrawLine(x + AmLine16, y + AmLine8, x + AmLine8, y + AmLine8, COLOR_PLAYER);
+-		break;
+-	case DIR_S:
+-		DrawLine(x, y, x, y + AmLine16, COLOR_PLAYER);
+-		DrawLine(x, y + AmLine16, x + AmLine4, y + AmLine8, COLOR_PLAYER);
+-		DrawLine(x, y + AmLine16, x - AmLine4, y + AmLine8, COLOR_PLAYER);
+-		break;
+-	case DIR_SW:
+-		DrawLine(x, y, x - AmLine16, y + AmLine8, COLOR_PLAYER);
+-		DrawLine(x - AmLine16, y + AmLine8, x - AmLine4 - AmLine8, y, COLOR_PLAYER);
+-		DrawLine(x - AmLine16, y + AmLine8, x - AmLine8, y + AmLine8, COLOR_PLAYER);
+-		break;
+-	case DIR_W:
+-		DrawLine(x, y, x - AmLine16, y, COLOR_PLAYER);
+-		DrawLine(x - AmLine16, y, x - AmLine8, y - AmLine4, COLOR_PLAYER);
+-		DrawLine(x - AmLine16, y, x - AmLine8, y + AmLine4, COLOR_PLAYER);
+-		break;
+-	case DIR_NW:
+-		DrawLine(x, y, x - AmLine16, y - AmLine8, COLOR_PLAYER);
+-		DrawLine(x - AmLine16, y - AmLine8, x - AmLine8, y - AmLine8, COLOR_PLAYER);
+-		DrawLine(x - AmLine16, y - AmLine8, x - AmLine4 - AmLine8, y, COLOR_PLAYER);
+-		break;
+-	}
++	int x, y;
++
++	int playerColor[MAX_PLRS];
++	playerColor[0] = PAL8_ORANGE+1;
++	playerColor[1] = PAL8_BLUE+1;
++	playerColor[2] = PAL8_RED+1;
++	playerColor[3] = PAL8_BLUE+1;
++
++    for (int plrno = 0; plrno<MAX_PLRS; plrno++)
++    {
++        if (plr[plrno].plrlevel == plr[myplr].plrlevel)
++        {
++            //cout << "Player " << i << "px" << plr[i]._px << " py" << plr[i]._py << "\n";
++
++            if (plr[plrno]._pmode == PM_WALK3) {
++                x = plr[plrno]._pfutx;
++                y = plr[plrno]._pfuty;
++                if (plr[plrno]._pdir == DIR_W)
++                    x++;
++                else
++                    y++;
++            } else {
++                x = plr[plrno]._px;
++                y = plr[plrno]._py;
++            }
++            px = x - 2 * AutoMapXOfs - ViewX;
++            py = y - 2 * AutoMapYOfs - ViewY;
++
++            x = (plr[plrno]._pxoff * AutoMapScale / 100 >> 1) + (ScrollInfo._sxoff * AutoMapScale / 100 >> 1) + (px - py) * AmLine16 + SCREEN_WIDTH / 2 + SCREEN_X;
++            y = (plr[plrno]._pyoff * AutoMapScale / 100 >> 1) + (ScrollInfo._syoff * AutoMapScale / 100 >> 1) + (px + py) * AmLine8 + (SCREEN_HEIGHT - PANEL_HEIGHT) / 2 + SCREEN_Y;
++
++            if (PANELS_COVER) {
++                if (invflag || sbookflag)
++                    x -= SCREEN_WIDTH / 4;
++                if (chrflag || questlog)
++                    x += SCREEN_WIDTH / 4;
++            }
++            y -= AmLine8;
++
++            switch (plr[plrno]._pdir) {
++            case DIR_N:
++                DrawLine(x, y, x, y - AmLine16, playerColor[plrno]);
++                DrawLine(x, y - AmLine16, x - AmLine4, y - AmLine8, playerColor[plrno]);
++                DrawLine(x, y - AmLine16, x + AmLine4, y - AmLine8, playerColor[plrno]);
++                break;
++            case DIR_NE:
++                DrawLine(x, y, x + AmLine16, y - AmLine8, playerColor[plrno]);
++                DrawLine(x + AmLine16, y - AmLine8, x + AmLine8, y - AmLine8, playerColor[plrno]);
++                DrawLine(x + AmLine16, y - AmLine8, x + AmLine8 + AmLine4, y, playerColor[plrno]);
++                break;
++            case DIR_E:
++                DrawLine(x, y, x + AmLine16, y, playerColor[plrno]);
++                DrawLine(x + AmLine16, y, x + AmLine8, y - AmLine4, playerColor[plrno]);
++                DrawLine(x + AmLine16, y, x + AmLine8, y + AmLine4, playerColor[plrno]);
++                break;
++            case DIR_SE:
++                DrawLine(x, y, x + AmLine16, y + AmLine8, playerColor[plrno]);
++                DrawLine(x + AmLine16, y + AmLine8, x + AmLine8 + AmLine4, y, playerColor[plrno]);
++                DrawLine(x + AmLine16, y + AmLine8, x + AmLine8, y + AmLine8, playerColor[plrno]);
++                break;
++            case DIR_S:
++                DrawLine(x, y, x, y + AmLine16, playerColor[plrno]);
++                DrawLine(x, y + AmLine16, x + AmLine4, y + AmLine8, playerColor[plrno]);
++                DrawLine(x, y + AmLine16, x - AmLine4, y + AmLine8, playerColor[plrno]);
++                break;
++            case DIR_SW:
++                DrawLine(x, y, x - AmLine16, y + AmLine8, playerColor[plrno]);
++                DrawLine(x - AmLine16, y + AmLine8, x - AmLine4 - AmLine8, y, playerColor[plrno]);
++                DrawLine(x - AmLine16, y + AmLine8, x - AmLine8, y + AmLine8, playerColor[plrno]);
++                break;
++            case DIR_W:
++                DrawLine(x, y, x - AmLine16, y, playerColor[plrno]);
++                DrawLine(x - AmLine16, y, x - AmLine8, y - AmLine4, playerColor[plrno]);
++                DrawLine(x - AmLine16, y, x - AmLine8, y + AmLine4, playerColor[plrno]);
++                break;
++            case DIR_NW:
++                DrawLine(x, y, x - AmLine16, y - AmLine8, playerColor[plrno]);
++                DrawLine(x - AmLine16, y - AmLine8, x - AmLine8, y - AmLine8, playerColor[plrno]);
++                DrawLine(x - AmLine16, y - AmLine8, x - AmLine4 - AmLine8, y, playerColor[plrno]);
++                break;
++            }
++
++        }
++    }
++
+ }
+ 
+ /**
