@@ -1,8 +1,4 @@
 # devilutionX-QOL-patches
-Gentoo ebuild with QOL patches for devilutionX 
-https://github.com/diasurgical/devilutionX
-
-# devilutionX-QOL-patches
 Gentoo ebuild with QOL improvements for [devilutionX](https://github.com/diasurgical/devilutionX)
 
 ## QOL patches by [@Manuel-K](https://github.com/Manuel-K)
