@@ -38,10 +38,7 @@ The easiest way to add this overlay to your Portage tree is through eselect repo
 
 ```
 # eselect repository add devilutionx-overlay git https://github.com/spidertoast/devilutionX-QOL-patches
-```
-followed by 
----
 # emerge --sync
---- 
+```
 
 Or copy the ebuild into your local repo.
