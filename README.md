@@ -1,13 +1,14 @@
 # devilutionX-QOL-patches
 Gentoo ebuild with QOL improvements for [devilutionX](https://github.com/diasurgical/devilutionX)
 
-## QOL patches by [@Manuel-K](https://github.com/Manuel-K)
+## Contents
+### QOL patches by [@Manuel-K](https://github.com/Manuel-K)
 - Item Highight (press ALT key)
 - Monster HP bar
 - Left mouse button auto-clicker
 - Run in town
 
-## Additional Patches
+### Additional Patches
 - Max 50k gold per inventory field
 - Show all players on map
 
