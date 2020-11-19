@@ -21,7 +21,7 @@ Installation
 
 Manual compilation from source
 ------------------------------
-Download Devilutionx 1.1.0)(https://github.com/diasurgical/devilutionX/releases/tag/1.1.0)
+[Download Devilutionx 1.1.0](https://github.com/diasurgical/devilutionX/releases/tag/1.1.0)
 
 This mini-mod is provided as a series of patches to avoid constant rebases to track devilutionX development.
 
