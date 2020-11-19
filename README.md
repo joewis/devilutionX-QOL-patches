@@ -23,6 +23,11 @@ Manual compilation from source
 ------------------------------
 [Download Devilutionx 1.1.0](https://github.com/diasurgical/devilutionX/releases/tag/1.1.0)
 
+Unpack the tarball with
+```
+# tar xfz 1.1.0.tar.g
+```
+
 This mini-mod is provided as a series of patches to avoid constant rebases to track devilutionX development.
 
 They can be applied by running
