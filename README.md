@@ -44,4 +44,4 @@ in the devilutionX directory.
 
 Most of the patches are stand-alone. `infernity_item_hightlight_v04.patch` and `infernity_monster_hp_bar_v02.patch` require `infernity_common_v02.patch`.
 
-
+After applying the patches, follow the instructions on [devilutionX](https://github.com/diasurgical/devilutionX)
