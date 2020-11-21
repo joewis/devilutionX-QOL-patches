@@ -1,0 +1,13 @@
+diff --git a/Source/towners.cpp b/Source/towners.cpp
+index 27df4d2..981fcf8 100644
+--- a/Source/towners.cpp
++++ b/Source/towners.cpp
+@@ -291,7 +291,7 @@ void InitBoy()
+ 	int i;
+ 
+ 	boyloadflag = TRUE;
+-	InitTownerInfo(numtowners, 96, TRUE, TOWN_PEGBOY, 11, 53, -1, 10);
++	InitTownerInfo(numtowners, 96, TRUE, TOWN_PEGBOY, 38, 52, -1, 10);
+ 	InitQstSnds(numtowners);
+ 	towner[numtowners]._tNData = LoadFileInMem("Towners\\TownBoy\\PegKid1.CEL", NULL);
+ 	for (i = 0; i < 8; i++) {
