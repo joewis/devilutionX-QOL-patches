@@ -12,6 +12,7 @@ Gentoo ebuild with QOL improvements for [devilutionX](https://github.com/diasurg
 - Max 50k gold per inventory field
 - Show all players on map
 - Moved Wirt to where we find him in Diablo II
+- Teleport in town (Because, why not?)
 
 Installation
 ============
