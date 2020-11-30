@@ -14,6 +14,8 @@ Gentoo ebuild with QOL improvements for [devilutionX](https://github.com/diasurg
 - Moved Wirt to where we find him in Diablo II
 - Teleport in town (Because, why not?)
 
+![Screenshot 1: Rare items](https://raw.githubusercontent.com/spidertoast/devilutionX-QOL-patches/master/screenshots/screenshot_01.png "Teleport in town")
+
 Installation
 ============
 
