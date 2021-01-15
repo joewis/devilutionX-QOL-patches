@@ -14,7 +14,7 @@ Gentoo ebuild with QOL improvements for [devilutionX](https://github.com/diasurg
 - Moved Wirt to where we find him in Diablo II
 - Teleport in town (Because, why not?)
 
-![Screenshot 1: Rare items](https://raw.githubusercontent.com/spidertoast/devilutionX-QOL-patches/master/screenshots/screenshot_01.png "Teleport in town")
+![Screenshot 1: Teleport in Town](https://raw.githubusercontent.com/spidertoast/devilutionX-QOL-patches/master/joewis/screenshot_01.png "Teleport in town")
 
 Installation
 ============
@@ -24,7 +24,7 @@ Installation via the Gentoo overlay
 The easiest way to add this overlay to your Portage tree is through eselect repository.
 
 ```
-# eselect repository add devilutionx-overlay git https://github.com/spidertoast/devilutionX-QOL-patches
+# eselect repository add devilutionx-overlay git https://github.com/joewis/devilutionX-QOL-patches
 # emerge --sync
 ```
 
