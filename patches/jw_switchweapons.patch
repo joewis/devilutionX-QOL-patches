@@ -1,0 +1,230 @@
+diff --git a/Source/diablo.cpp b/Source/diablo.cpp
+index 6d53647..176321f 100644
+--- a/Source/diablo.cpp
++++ b/Source/diablo.cpp
+@@ -1367,6 +1367,37 @@ void PressChar(int vkey)
+ 		}
+ 		return;
+ #endif
++    	case 'w':
++    	case 'W':
++        	if (plr[myplr]._pmode == PM_STAND || plr[myplr]._pmode == PM_WALK
++            	|| plr[myplr]._pmode == PM_WALK2 || plr[myplr]._pmode == PM_WALK3
++            	|| plr[myplr]._pmode == PM_GOTHIT || plr[myplr]._pmode == PM_BLOCK)
++        	{
++            		if(ReplaceItem(INVITEM_HAND_LEFT, myplr))
++            		{
++
++            			if (plr[myplr].InvBody[INVLOC_HAND_LEFT]._itype == ITYPE_STAFF
++                		&& plr[myplr].InvBody[INVLOC_HAND_LEFT]._iSpell != 0
++                		&& plr[myplr].InvBody[INVLOC_HAND_LEFT]._iCharges > 0)
++                		{
++                    			plr[myplr]._pRSpell = plr[myplr].InvBody[INVLOC_HAND_LEFT]._iSpell;
++                    			plr[myplr]._pRSplType = RSPLTYPE_CHARGES;
++                		}
++            			}else
++            			{
++                			if (plr[myplr]._pClass == PC_WARRIOR)
++                			{
++                    				PlaySFX(random_(0, 3) + PS_WARR14);
++#ifndef SPAWN
++                			} else if (plr[myplr]._pClass == PC_ROGUE) {
++                    				PlaySFX(random_(0, 3) + PS_ROGUE14);
++                			} else if (plr[myplr]._pClass == PC_SORCERER) {
++                    				PlaySFX(random_(0, 3) + PS_MAGE14);
++#endif
++                		}
++            		}
++        	}
++        return;
+ 	}
+ }
+ 
+diff --git a/Source/inv.cpp b/Source/inv.cpp
+index 3210150..ce82255 100644
+--- a/Source/inv.cpp
++++ b/Source/inv.cpp
+@@ -2269,4 +2269,154 @@ BOOL DropItemBeforeTrig()
+ 	return FALSE;
+ }
+ 
++int GetInvIndex(int pnum, int iseed)
++{   //Find index il and ir of left and right hand AltItems in inventory list
++    int ii = -1;
++    for(int i=0; i < plr[pnum]._pNumInv && iseed!=0 && ii!= i; i++)
++        if(plr[pnum].InvList[i]._iSeed == iseed)
++            ii = i;
++    return ii;
++}
++
++BOOL HoldItemToInv(int pnum)
++{
++    BOOL done = true;
++    if(plr[pnum].HoldItem._itype != ITYPE_NONE)
++    {
++        done = false;
++        SetCursor_(plr[pnum].HoldItem._iCurs + CURSOR_FIRSTITEM);
++        for (int i = 0; i < NUM_INV_GRID_ELEM && !done; i++)
++            done = AutoPlace(pnum, i, icursW28, icursH28, TRUE);
++
++        if (done)
++        {
++            plr[pnum].HoldItem._itype = ITYPE_NONE;
++            SetCursor_(CURSOR_HAND);
++        }
++    }
++    CalcPlrInv(pnum,TRUE);
++    return done;
++}
++
++BOOL InvListToBodySwap(int pnum, int ii, int INVLOC)
++{
++    ItemStruct tempitem = plr[pnum].InvBody[INVLOC];
++    plr[pnum].HoldItem = plr[pnum].InvList[ii];
++    PlaySFX(ItemInvSnds[ItemCAnimTbl[plr[pnum].HoldItem._iCurs]]);
++
++    NetSendCmdChItem(TRUE, INVLOC);
++    plr[pnum].InvBody[INVLOC] = plr[pnum].HoldItem;
++
++    RemoveInvItem(pnum,ii);
++    plr[pnum].HoldItem = tempitem;
++
++    CalcPlrInv(pnum,TRUE);
++    return HoldItemToInv(pnum);
++}
++
++BOOL InitAltItem(int pnum, int INVLOC)
++{
++    if(plr[pnum].InvBody[INVLOC]._itype != ITYPE_NONE)
++    {
++        plr[pnum].HoldItem = plr[pnum].InvBody[INVLOC];
++        PlaySFX(ItemInvSnds[ItemCAnimTbl[plr[pnum].HoldItem._iCurs]]);
++        NetSendCmdDelItem(TRUE, INVLOC);
++        plr[pnum].InvBody[INVLOC]._itype = ITYPE_NONE;
++        CalcPlrInv(pnum,TRUE);
++        return HoldItemToInv(pnum);
++    }
++    return true;
++}
++
++BOOL ReplaceItem(int ILOC, int pnum)
++{
++    int il = -1;
++    int ir = -1;
++
++    int altIseed_L = 0;
++    int altIseed_R = 0;
++
++    if (pcurs != CURSOR_HAND) return false;
++
++    switch (ILOC)
++    {
++        case INVLOC_HAND_RIGHT:
++        case INVLOC_HAND_LEFT:
++
++            //Make sure shield is on the right.
++            if (plr[pnum].InvBody[INVLOC_HAND_LEFT]._itype == ITYPE_SHIELD)
++                SwapItem(&plr[pnum].InvBody[INVLOC_HAND_LEFT],&plr[pnum].InvBody[INVLOC_HAND_RIGHT]);
++
++            altIseed_L = plr[pnum].AltItemSeed[INVLOC_HAND_LEFT];
++            altIseed_R = plr[pnum].AltItemSeed[INVLOC_HAND_RIGHT];
++
++            //Initialize current equipped items as AltItems
++            if(plr[pnum].InvBody[INVLOC_HAND_LEFT]._itype == ITYPE_NONE)
++                plr[pnum].AltItemSeed[INVLOC_HAND_LEFT] = 0;
++            else
++                plr[pnum].AltItemSeed[INVLOC_HAND_LEFT] = plr[pnum].InvBody[INVLOC_HAND_LEFT]._iSeed;
++
++            if(plr[pnum].InvBody[INVLOC_HAND_RIGHT]._itype == ITYPE_NONE)
++                plr[pnum].AltItemSeed[INVLOC_HAND_RIGHT] = 0;
++            else
++                plr[pnum].AltItemSeed[INVLOC_HAND_RIGHT] = plr[pnum].InvBody[INVLOC_HAND_RIGHT]._iSeed;
++
++            il = GetInvIndex(pnum, altIseed_L);
++
++            if(il == -1)
++            {
++                if(!InitAltItem(pnum, INVLOC_HAND_LEFT))
++                    return false;
++
++                if(altIseed_R == plr[pnum].InvBody[INVLOC_HAND_RIGHT]._iSeed && plr[pnum].InvBody[INVLOC_HAND_RIGHT]._itype != ITYPE_NONE)
++                    return true;
++
++                ir = GetInvIndex(pnum, altIseed_R);
++                if(ir == -1)
++                    return InitAltItem(pnum, INVLOC_HAND_RIGHT);
++                else
++                    return InvListToBodySwap(pnum, ir, INVLOC_HAND_RIGHT);
++            }
++
++            if (plr[pnum].InvList[il]._iLoc == ILOC_ONEHAND)
++            {
++                if(!InvListToBodySwap(pnum, il, INVLOC_HAND_LEFT))
++                    return false;
++
++                if(altIseed_R == plr[pnum].InvBody[INVLOC_HAND_RIGHT]._iSeed && plr[pnum].InvBody[INVLOC_HAND_RIGHT]._itype != ITYPE_NONE)
++                    return true;
++
++                ir = GetInvIndex(pnum, altIseed_R);
++                if(ir == -1)
++                    return InitAltItem(pnum, INVLOC_HAND_RIGHT);
++                else
++                    return InvListToBodySwap(pnum, ir, INVLOC_HAND_RIGHT);
++            }
++
++
++            if (plr[pnum].InvList[il]._iLoc == ILOC_TWOHAND)
++            {
++                //move left Altitem to tempitem to make space for the right hand item.
++                ItemStruct tempitem = plr[pnum].InvList[il];
++                RemoveInvItem(pnum,il);
++
++                //After removing a 2-hand weapon from inv there will always be enough space for right hand item.
++                plr[pnum].HoldItem = plr[pnum].InvBody[INVLOC_HAND_RIGHT];
++                NetSendCmdDelItem(TRUE, INVLOC_HAND_RIGHT);
++                plr[pnum].InvBody[INVLOC_HAND_RIGHT]._itype = ITYPE_NONE;
++                HoldItemToInv(pnum);
++
++                plr[pnum].HoldItem = tempitem;
++                PlaySFX(ItemInvSnds[ItemCAnimTbl[plr[pnum].HoldItem._iCurs]]);
++                //now holding the 2-hand weapon, swap with whatever was is in the left hand.
++                NetSendCmdChItem(TRUE, INVLOC_HAND_LEFT);
++                SwapItem(&plr[pnum].HoldItem,&plr[pnum].InvBody[INVLOC_HAND_LEFT]);
++                //try to place former left hand item in inventory & return.
++
++                return HoldItemToInv(pnum);
++            }
++	break;
++	}
++}
++
+ DEVILUTION_END_NAMESPACE
+diff --git a/Source/inv.h b/Source/inv.h
+index 779d9c0..8a66c2f 100644
+--- a/Source/inv.h
++++ b/Source/inv.h
+@@ -57,6 +57,12 @@ void DoTelekinesis();
+ int CalculateGold(int pnum);
+ BOOL DropItemBeforeTrig();
+ 
++int GetInvIndex(int pnum, int iseed);
++BOOL HoldItemToInv(int pnum);
++BOOL InvListToBodySwap(int pnum, int ii, int INVLOC);
++BOOL InitAltItem(int pnum, int INVLOC);
++BOOL ReplaceItem(int ILOC, int pnum);
++
+ /* data */
+ 
+ extern int AP2x2Tbl[10];
+diff --git a/structs.h b/structs.h
+index 606158e..675fda3 100644
+--- a/structs.h
++++ b/structs.h
+@@ -357,6 +357,7 @@ typedef struct PlayerStruct {
+ 	unsigned char *_pDData;
+ 	unsigned char *_pBData;
+ 	void *pReserved;
++	int AltItemSeed[NUM_INVLOC] = {0};
+ } PlayerStruct;
+ 
+ //////////////////////////////////////////////////
