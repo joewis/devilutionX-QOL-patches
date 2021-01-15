@@ -13,8 +13,7 @@ Gentoo ebuild with QOL improvements for [devilutionX](https://github.com/diasurg
 - Show all players on map
 - Moved Wirt to where we find him in Diablo II
 - Teleport in town (Because, why not?)
-
-![Screenshot 1: Teleport in Town](https://raw.githubusercontent.com/spidertoast/devilutionX-QOL-patches/master/joewis/screenshot_01.png "Teleport in town")
+- Shortcut 'w' to switch between weapons held in inventory.
 
 Installation
 ============
