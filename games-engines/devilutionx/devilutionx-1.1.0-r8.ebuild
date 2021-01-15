@@ -49,6 +49,7 @@ PATCHES=(
 		"${WORKDIR}/patches/all_players_on_automap.patch"
 		"${WORKDIR}/patches/wirt_in_town.patch"
 		"${WORKDIR}/patches/teleport_in_town.patch"
+		"${WORKDIR}/patches/jw_switchweapons.patch"
 	)
 
 
