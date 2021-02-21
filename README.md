@@ -30,7 +30,7 @@ The easiest way to add this overlay to your Portage tree is through eselect repo
 Or copy the ebuild into your local repo.
 
 Manual compilation from source
-------------------------------
+-------------------------------
 [Download Devilutionx 1.1.0](https://github.com/diasurgical/devilutionX/releases/tag/1.1.0)
 
 Unpack the tarball with
