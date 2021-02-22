@@ -5,7 +5,7 @@ Gentoo ebuild with QOL improvements for [devilutionX](https://github.com/diasurg
 ### QOL patches by [@Manuel-K](https://github.com/Manuel-K)
 - Item Highight (press ALT key)
 - Monster HP bar
-- Left mouse button auto-clicker
+- Left mouse button auto-clicker (buggy on windows)
 - Run in town
 
 ### Additional Patches
